@@ -32,39 +32,45 @@ public class JDBCInitListener implements ServletContextListener {
 	/**
      * @see ServletContextListener#contextInitialized(ServletContextEvent)
      */
-    public void contextInitialized(ServletContextEvent sce)  {                   
-         ServletContext application = sce.getServletContext();
-         
-         String url = application.getInitParameter("jdbcUrl");
-         String user = application.getInitParameter("jdbcUser");
-         String password = application.getInitParameter("jdbcPassword");
-         
-         System.out.println(url);         
-         System.out.println(user);         
-         System.out.println(password);         
-         
-         // 1. 클래스 로딩
-         try {
-        	 Class.forName("oracle.jdbc.driver.OracleDriver");        	 
-         } catch (ClassNotFoundException e) {
-        	 e.printStackTrace();
-         }
-         // 2. drivermanager에서 connection
-         try (Connection con = DriverManager.getConnection(url, user, password);){
-        	 System.out.println("연결 잘됨");
-         } catch (Exception e) {
-        	 e.printStackTrace();
-         }
-         
-         // 3. close();
-         
-         ConnectionProvider.setUrl(url);
-         ConnectionProvider.setUrl(user);
-         ConnectionProvider.setUrl(password);
-         
-         // context root 경로
-         String contextPath = application.getContextPath();
-         application.setAttribute("root", contextPath);
+    public void contextInitialized(ServletContextEvent sce)  { 
+    	ServletContext application = sce.getServletContext();
+    	
+    	String url = application.getInitParameter("jdbcUrl");
+    	String user = application.getInitParameter("jdbcUser");
+    	String pw = application.getInitParameter("jdbcPassword");
+    	
+    	// 1. 클래스 로딩
+    	try {
+				Class.forName("oracle.jdbc.driver.OracleDriver");
+			} catch (ClassNotFoundException e) {
+				e.printStackTrace();
+			}
+    	
+    	// 2. drivermanager에서 connection
+    	// 3. close();
+    	try (
+    			Connection con = DriverManager.getConnection(url, user, pw);
+			) {
+    		System.out.println("연결에 성공 하였습니다.");
+    	} catch (Exception e) {
+    		e.printStackTrace();
+    	}
+    	
+    	ConnectionProvider.setUrl(url);
+    	ConnectionProvider.setUser(user);
+    	ConnectionProvider.setPassword(pw);
+    	
+    	// context root 경로 
+    	String contextPath = application.getContextPath();
+    	application.setAttribute("root", contextPath);
     }
 	
 }
+
+
+
+
+
+
+
+

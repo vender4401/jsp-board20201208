@@ -4,10 +4,11 @@ import java.sql.Connection;
 import java.sql.SQLException;
 
 public class JdbcUtil {
+		
 	public static void rollback(Connection con) {
 		try {
-			if(con != null) {
-				con.rollback();			
+			if (con != null) {
+				con.rollback();
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -26,3 +27,8 @@ public class JdbcUtil {
 		}
 	}
 }
+
+
+
+
+
